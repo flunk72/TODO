@@ -1,19 +1,44 @@
-import React from 'react'
-import './TodoListItem'
+import React, { Component } from 'react'
+import './TodoListItem.css'
 
-const TodoListItem = ({label, important = false}) => {
+export class TodoListItem extends Component {
 
-  const style = {
-    color: important ? "tomato" : "black"
-  }
+  render() {
+    const { label, onDeleted, onToggleDone, onToggleImp, done, important} = this.props;
 
-  return (
-    <span 
-      className="todo-list-item" 
-      style={style}>
-      {label}
+    let classNames = 'todo-list-item';
+    if(done) {
+      classNames += ' done';
+    }
+    if(important) {
+      classNames += " important"
+    }
+
+    return(
+      <span className={`d-flex justify-content-between ${classNames}`}>
+      <span
+        className="todo-list-item-label"
+        onClick={onToggleDone}
+      >
+        {label}
+        
+      </span>
+      <div>
+        <button type="button"
+          className="btn btn-outline-danger btn-sm float-right"
+          onClick={onDeleted}
+        >
+          <i className="fa fa-trash-o" />
+        </button>
+        <button type="button"
+                className="btn btn-outline-success btn-sm float-right"
+                onClick={onToggleImp}
+        >
+          <i className="fa fa-exclamation" />
+        </button>
+
+      </div>
     </span>
-  )
+    )
+  }
 }
-
-export default TodoListItem;
